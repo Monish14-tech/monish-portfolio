@@ -1,0 +1,10 @@
+.bg-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  /* Allow click events for ripple effect */
+  pointer-events: all;
+  /* Canvas sits behind all content */
+}

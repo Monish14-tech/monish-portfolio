@@ -1,0 +1,111 @@
+* {
+  cursor: none !important;
+}
+
+/* ─── Crosshair center dot ─── */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 4px;
+  background: #c4b5fd;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 100002;
+  box-shadow: 0 0 6px 2px rgba(167, 139, 250, 0.8);
+}
+
+/* ─── Crosshair reticle ring ─── */
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  pointer-events: none;
+  z-index: 100001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Four corner brackets that form a targeting reticle */
+.cursor-ring::before,
+.cursor-ring::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: rgba(167, 139, 250, 0.85);
+  border-style: solid;
+}
+
+/* Top-left + Bottom-right bracket */
+.cursor-ring::before {
+  top: 0;
+  left: 0;
+  border-width: 2px 0 0 2px;
+  border-radius: 1px 0 0 0;
+  box-shadow: inset 2px 2px 4px rgba(167, 139, 250, 0.2);
+}
+
+.cursor-ring::after {
+  bottom: 0;
+  right: 0;
+  border-width: 0 2px 2px 0;
+  border-radius: 0 0 1px 0;
+}
+
+/* Top-right bracket */
+.cursor-bracket-tr,
+.cursor-bracket-bl {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: rgba(167, 139, 250, 0.85);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.cursor-bracket-tr {
+  top: 0;
+  right: 0;
+  border-width: 2px 2px 0 0;
+  border-radius: 0 1px 0 0;
+}
+
+.cursor-bracket-bl {
+  bottom: 0;
+  left: 0;
+  border-width: 0 0 2px 2px;
+  border-radius: 0 0 0 1px;
+}
+
+.cursor-label {
+  font-size: 11px;
+  color: #c4b5fd;
+  font-weight: 600;
+  pointer-events: none;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+/* ─── Outer glow halo ─── */
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.18) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 100000;
+  filter: blur(8px);
+}

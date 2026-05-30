@@ -1,0 +1,56 @@
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 4rem;
+}
+
+/* 3D canvas wrapper fills the full section */
+.hero-section > div:first-child {
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.hero-text-centered {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
+  pointer-events: auto;
+}
+
+.hero-text-centered .section-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.hero-title {
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  font-weight: 400;
+  line-height: 1.1;
+  margin-bottom: 2rem;
+  /* Subtle glass-like text shadow to pop above 3D */
+  text-shadow:
+    0 0 80px rgba(167, 139, 250, 0.3),
+    0 2px 40px rgba(0, 0, 0, 0.5);
+}
+
+.hero-description {
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  max-width: 600px;
+  margin: 0 auto;
+}

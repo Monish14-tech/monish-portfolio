@@ -1,0 +1,91 @@
+/* Button base */
+.custom-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 2rem;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  overflow: hidden;
+  transition: box-shadow var(--t-fast) var(--ease-out);
+  white-space: nowrap;
+}
+
+/* Primary */
+.custom-button.primary {
+  background: var(--cyan);
+  color: #020407;
+  border: 1px solid var(--cyan);
+}
+
+.custom-button.primary:hover {
+  box-shadow: 0 0 32px var(--cyan-glow), 0 8px 24px rgba(0, 212, 255, 0.3);
+}
+
+/* Secondary */
+.custom-button.secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--glass-border);
+}
+
+.custom-button.secondary:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: var(--cyan-dim);
+}
+
+/* Button glow */
+.button-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(0, 212, 255, 0.2), transparent 70%);
+  opacity: 0;
+  transition: opacity var(--t-fast);
+  pointer-events: none;
+}
+
+.custom-button.primary:hover .button-glow {
+  opacity: 1;
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.button-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hire Me nav CTA */
+.nav-cta-btn {
+  display: none;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  border: 1px solid var(--cyan);
+  padding: 0.45rem 1rem;
+  border-radius: 6px;
+  transition: background var(--t-fast), box-shadow var(--t-fast);
+}
+
+.nav-cta-btn:hover {
+  background: var(--cyan-dim);
+  box-shadow: 0 0 16px var(--cyan-glow);
+}
+
+@media (min-width: 768px) {
+  .nav-cta-btn { display: block; }
+}
