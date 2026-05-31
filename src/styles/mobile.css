@@ -164,8 +164,8 @@
 
   .project-model {
     width: 100%;
-    min-height: 140px;
-    max-height: 180px;
+    min-height: 200px;
+    max-height: none;
     margin: 0 auto;
   }
 
@@ -285,8 +285,8 @@
   }
 
   .project-model {
-    min-height: 120px;
-    max-height: 160px;
+    min-height: 180px;
+    max-height: none;
   }
 }
 

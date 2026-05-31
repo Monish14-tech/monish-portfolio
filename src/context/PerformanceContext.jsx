@@ -32,7 +32,7 @@ const TIER_SETTINGS = {
   low: {
     dpr: [1, 1],
     antialias: false,
-    enableProject3D: false,
+    enableProject3D: true,
     enableEnvironment: false,
     enableHeroEnvironment: true,
     transmissionSamples: 2,
@@ -99,9 +99,10 @@ function applyMobileOverrides(settings, tier) {
 
   return {
     ...settings,
-    enableProject3D: false,
+    enableProject3D: true,
     enableCustomCursor: false,
     enableHeavyBackground: false,
+    enableEnvironment: false,
     dpr: [1, 1],
     dustLayers: Math.min(settings.dustLayers, tier === 'low' ? 2 : 3),
     particles: Math.min(settings.particles, tier === 'low' ? 40 : 70),

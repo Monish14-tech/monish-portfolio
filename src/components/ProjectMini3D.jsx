@@ -13,8 +13,8 @@ const SCENES = {
 
 const MiniScene = ({ variant }) => {
   const config = SCENES[variant];
-  const { enableEnvironment } = usePerformance();
-  const groupRef = useCursorParallax({ rotX: 0.12, rotY: 0.2, lerp: 0.06, autoRotateY: 0.025 });
+  const { enableEnvironment, tier } = usePerformance();
+  const groupRef = useCursorParallax({ rotX: 0.12, rotY: 0.2, lerp: 0.06, autoRotateY: 0.035 });
 
   if (!config) return null;
 
@@ -25,7 +25,7 @@ const MiniScene = ({ variant }) => {
       <ambientLight intensity={0.5} />
       <pointLight position={[4, 4, 4]} intensity={2} color="#a78bfa" />
       <pointLight position={[-3, -2, 3]} intensity={1.4} color="#22d3ee" />
-      {enableEnvironment && <Environment preset="city" />}
+      {enableEnvironment && tier === 'high' && <Environment preset="city" />}
       <AnimatedFloat speed={1} rotationIntensity={0.08} floatIntensity={0.12}>
         <group position={position}>
           <Model scale={scale} />
@@ -44,7 +44,7 @@ const ProjectMini3D = ({ variant }) => {
 
   return (
     <div className="project-model">
-      <SceneCanvas camera={SCENES[variant]?.camera} interactive={false} lazy>
+      <SceneCanvas camera={SCENES[variant]?.camera} interactive={false} lazy={false}>
         <MiniScene variant={variant} />
       </SceneCanvas>
     </div>

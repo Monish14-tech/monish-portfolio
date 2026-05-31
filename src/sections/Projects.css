@@ -267,10 +267,15 @@
   }
 
   .project-model {
-    min-height: 160px;
-    opacity: 0.85;
+    min-height: 200px;
+    opacity: 1;
     border-left: none;
     border-top: 1px solid var(--glass-border);
+  }
+
+  .project-model .scene-canvas {
+    mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 45%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 45%, transparent 100%);
   }
 
   .view-project-btn {
