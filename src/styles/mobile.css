@@ -141,12 +141,12 @@
   }
 
   .project-body {
-    grid-template-columns: 1fr;
     width: 100%;
   }
 
   .project-info {
     width: 100%;
+    min-width: 0;
     padding: 1.25rem;
     align-items: flex-start;
     text-align: left;
@@ -163,10 +163,10 @@
   }
 
   .project-model {
-    width: 100%;
+    flex-shrink: 0;
     min-height: 200px;
-    max-height: none;
-    margin: 0 auto;
+    height: auto;
+    align-self: stretch;
   }
 
   .project-image-container {
@@ -284,9 +284,8 @@
     padding: 1.1rem;
   }
 
-  .project-model {
-    min-height: 180px;
-    max-height: none;
+  .project-body {
+    grid-template-columns: 1fr minmax(108px, 30%);
   }
 }
 

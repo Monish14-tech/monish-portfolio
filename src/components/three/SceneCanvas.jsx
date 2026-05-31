@@ -9,6 +9,7 @@ const SceneCanvas = ({
   interactive = true,
   style,
   lazy = true,
+  rootMargin = '120px',
 }) => {
   const containerRef = useRef(null);
   const [isMounted, setIsMounted] = useState(!lazy);
@@ -25,16 +26,16 @@ const SceneCanvas = ({
     const onIntersect = ([entry]) => {
       const visible = entry.isIntersecting;
       setInView(visible);
-      if (lazy) setIsMounted(visible);
+      if (lazy && visible) setIsMounted(true);
     };
 
     const observer = new IntersectionObserver(onIntersect, {
-      rootMargin: lazy ? '120px' : '80px',
+      rootMargin,
       threshold: 0.01,
     });
     observer.observe(el);
     return () => observer.disconnect();
-  }, [lazy]);
+  }, [lazy, rootMargin]);
 
   useEffect(() => {
     const onVis = () => {
