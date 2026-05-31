@@ -1,0 +1,301 @@
+/* ─── Mobile-first alignment, spacing & performance ─── */
+
+@media (max-width: 768px) {
+  :root {
+    --container-pad: 1.25rem;
+    --section-py: 4rem;
+    --gap-section: 2.5rem;
+    --gap-block: 1.25rem;
+  }
+
+  html {
+    overflow-x: clip;
+  }
+
+  body {
+    overflow-x: clip;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  section {
+    padding: var(--section-py) 0;
+  }
+
+  .section-block {
+    gap: var(--gap-section);
+    width: 100%;
+  }
+
+  .section-header {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .section-header--center {
+    align-items: center;
+    text-align: center;
+  }
+
+  .section-header--left {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .section-title {
+    font-size: clamp(1.85rem, 8vw, 2.5rem);
+    word-wrap: break-word;
+  }
+
+  .section-description {
+    font-size: 0.95rem;
+    max-width: 100%;
+  }
+
+  .panel {
+    padding: 1.25rem;
+    background: rgba(8, 8, 12, 0.82);
+    border-radius: var(--radius-md);
+  }
+
+  /* Navbar */
+  .navbar-wrapper {
+    padding: 0.85rem 0;
+  }
+
+  .navbar {
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .logo-mark {
+    font-size: 1.15rem;
+    max-width: 55vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .navbar-actions {
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .mobile-toggle {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-nav-link {
+    padding: 0.35rem 0.75rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* About */
+  .about-content {
+    gap: 2rem;
+    width: 100%;
+  }
+
+  .about-text {
+    width: 100%;
+  }
+
+  .about-text p {
+    font-size: 0.95rem;
+  }
+
+  .about-stats {
+    gap: 1.25rem;
+  }
+
+  .skills-container {
+    width: 100%;
+  }
+
+  .skills-grid,
+  .skills-list {
+    width: 100%;
+  }
+
+  .skills-list li {
+    word-break: break-word;
+  }
+
+  /* Projects */
+  .projects-grid {
+    width: 100%;
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    width: 100%;
+    border-radius: var(--radius-md);
+  }
+
+  .project-body {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .project-info {
+    width: 100%;
+    padding: 1.25rem;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .project-title {
+    font-size: clamp(1.35rem, 5.5vw, 1.65rem);
+    word-wrap: break-word;
+  }
+
+  .project-description {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .project-model {
+    width: 100%;
+    min-height: 140px;
+    max-height: 180px;
+    margin: 0 auto;
+  }
+
+  .project-image-container {
+    min-height: 200px;
+    aspect-ratio: 16 / 10;
+  }
+
+  .project-image-link {
+    display: block;
+    width: 100%;
+  }
+
+  .project-highlights {
+    width: 100%;
+  }
+
+  .project-highlights li {
+    font-size: 0.68rem;
+  }
+
+  .project-tags {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  /* Contact */
+  .contact-content {
+    gap: 2rem;
+    width: 100%;
+  }
+
+  .contact-info,
+  .contact-form {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .contact-form button,
+  .submit-btn {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    font-size: 16px; /* prevents iOS zoom on focus */
+  }
+
+  .info-value {
+    font-size: clamp(1rem, 4.5vw, 1.2rem);
+  }
+
+  /* Footer */
+  .footer-top {
+    padding: 0 0.25rem;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  .footer-brand,
+  .footer-links {
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .scroll-hint {
+    bottom: max(2rem, env(safe-area-inset-bottom));
+    font-size: 0.72rem;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: calc(100% - 2rem);
+  }
+
+  .scroll-hint-line {
+    height: 28px;
+  }
+
+  /* Reduce expensive blur on low-end mobile GPUs */
+  .panel,
+  .navbar-wrapper.scrolled {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --container-pad: 1rem;
+    --section-py: 3.5rem;
+  }
+
+  .logo-mark {
+    font-size: 1.15rem !important;
+  }
+
+  .hero-eyebrow-text,
+  .section-eyebrow {
+    letter-spacing: 0.14em;
+  }
+
+  .project-info {
+    padding: 1.1rem;
+  }
+
+  .project-model {
+    min-height: 120px;
+    max-height: 160px;
+  }
+}
+
+/* Safe areas for notched phones */
+@supports (padding: max(0px)) {
+  .navbar-wrapper .container,
+  main .container,
+  footer .container {
+    padding-left: max(var(--container-pad), env(safe-area-inset-left));
+    padding-right: max(var(--container-pad), env(safe-area-inset-right));
+  }
+}

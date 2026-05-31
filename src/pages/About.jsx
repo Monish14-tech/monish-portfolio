@@ -1,16 +1,24 @@
 import React from 'react';
 import SlideIn from '../components/SlideIn';
+import SectionHeader from '../components/SectionHeader';
+import SectionDecoration from '../components/SectionDecoration';
+import '../components/Scene3D.css';
 import '../sections/About.css';
 
 const About = () => {
   return (
-    <section id="about" className="about-section">
-      <div className="container">
-        
+    <section id="about" className="about-section section-scrim">
+      <SectionDecoration variant="about" />
+
+      <div className="container section-block">
         <SlideIn direction="up">
-          <h2 className="section-title">
-            About <span style={{ fontStyle: 'italic' }}>Me</span>
-          </h2>
+          <SectionHeader
+            eyebrow="01 — About"
+            title="About "
+            titleAccent="Me"
+            description="Technology enthusiast focused on scalable software, backend systems, and thoughtful engineering."
+            align="center"
+          />
         </SlideIn>
 
         <div className="about-content">
@@ -25,24 +33,24 @@ const About = () => {
               <p>
                 I believe that great software is created through a combination of strong engineering principles, continuous learning, and attention to user needs. My goal is to contribute to innovative products while growing as a software engineer.
               </p>
-              
-              <div className="about-stats" style={{ display: 'flex', gap: '2rem', marginTop: '3rem', flexWrap: 'wrap' }}>
-                <div className="stat-item" style={{ flex: '1 1 auto' }}>
-                  <span className="stat-label" style={{ color: 'var(--text-primary)', fontSize: '1.2rem', marginBottom: '0.5rem', display: 'block' }}>Experience</span>
-                  <span className="stat-label text-secondary">Technical Training in web development and software design.</span>
+
+              <div className="about-stats">
+                <div className="stat-item">
+                  <span className="stat-title">Experience</span>
+                  <span className="stat-desc">Technical training in web development and software design.</span>
                 </div>
-                <div className="stat-item" style={{ flex: '1 1 auto' }}>
-                  <span className="stat-label" style={{ color: 'var(--text-primary)', fontSize: '1.2rem', marginBottom: '0.5rem', display: 'block' }}>Achievements</span>
-                  <span className="stat-label text-secondary">IoT Certification, Hackathon Participant, Tech Paper Presentation.</span>
+                <div className="stat-item">
+                  <span className="stat-title">Achievements</span>
+                  <span className="stat-desc">IoT certification, hackathon participant, tech paper presentation.</span>
                 </div>
               </div>
             </div>
           </SlideIn>
 
           <SlideIn direction="up" delay={0.4}>
-            <div className="skills-container">
+            <aside className="skills-container panel">
               <p className="skills-label">Core Competencies</p>
-              <ul className="skills-list" style={{ marginBottom: '2rem' }}>
+              <ul className="skills-list">
                 <li>Java, Python, C, JavaScript</li>
                 <li>HTML5, CSS3, React.js, Next.js</li>
                 <li>FastAPI, REST APIs, Auth</li>
@@ -50,15 +58,14 @@ const About = () => {
                 <li>Data Structures & Algorithms</li>
                 <li>Git, GitHub, VS Code, Postman</li>
               </ul>
-              
+
               <p className="skills-label">Career Objective</p>
-              <p className="text-secondary" style={{ fontSize: '0.95rem', lineHeight: '1.6' }}>
-                I aim to build a career in software development by creating efficient, scalable, and impactful technology solutions. I am particularly interested in full-stack development, backend engineering, cloud technologies, artificial intelligence, and modern software architecture.
+              <p className="skills-objective">
+                I aim to build a career in software development by creating efficient, scalable, and impactful technology solutions — with a focus on full-stack development, backend engineering, cloud, AI, and modern architecture.
               </p>
-            </div>
+            </aside>
           </SlideIn>
         </div>
-
       </div>
     </section>
   );

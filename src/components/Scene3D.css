@@ -1,0 +1,119 @@
+/* ─── Full-page 3D decorations (no layout space) ─── */
+
+.section-deco {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.section-deco .scene-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+}
+
+.section-deco .scene-canvas--interactive {
+  cursor: default;
+}
+
+/* Shared full-bleed mask — models span the section */
+.section-deco--hero .scene-canvas,
+.section-deco--about .scene-canvas,
+.section-deco--contact .scene-canvas {
+  inset: 0;
+  transform: none;
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  width: 100%;
+  height: 100%;
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, black 25%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, black 25%, transparent 100%);
+}
+
+.section-deco--hero .scene-canvas {
+  opacity: 0.34;
+}
+
+.section-deco--about .scene-canvas {
+  opacity: 0.26;
+}
+
+.section-deco--contact .scene-canvas {
+  opacity: 0.28;
+}
+
+/* Readable content above decorations */
+.section-scrim::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 90% 80% at 50% 50%, rgba(5, 5, 5, 0.55) 0%, rgba(5, 5, 5, 0.85) 100%);
+}
+
+.hero-section.section-scrim::before {
+  background: radial-gradient(ellipse 75% 70% at 50% 45%, rgba(5, 5, 5, 0.35) 0%, rgba(5, 5, 5, 0.75) 100%);
+}
+
+.hero-section,
+.about-section,
+.projects-section,
+.contact-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section .container,
+.about-section .container,
+.projects-section .container,
+.contact-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+.scene-canvas {
+  overflow: hidden;
+}
+
+.scene-canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+@media (max-width: 768px) {
+  .section-deco--hero .scene-canvas,
+  .section-deco--about .scene-canvas,
+  .section-deco--contact .scene-canvas {
+    mask-image: radial-gradient(ellipse 95% 85% at 50% 50%, black 20%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 95% 85% at 50% 50%, black 20%, transparent 100%);
+    contain: strict;
+  }
+
+  .section-deco--hero .scene-canvas {
+    opacity: 0.22;
+  }
+
+  .section-deco--about .scene-canvas {
+    opacity: 0.2;
+  }
+
+  .section-deco--contact .scene-canvas {
+    opacity: 0.22;
+  }
+
+  .section-scrim::before {
+    background: radial-gradient(ellipse 100% 90% at 50% 50%, rgba(5, 5, 5, 0.7) 0%, rgba(5, 5, 5, 0.92) 100%);
+  }
+
+  .hero-section.section-scrim::before {
+    background: radial-gradient(ellipse 100% 85% at 50% 42%, rgba(5, 5, 5, 0.5) 0%, rgba(5, 5, 5, 0.88) 100%);
+  }
+}

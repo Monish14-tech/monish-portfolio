@@ -5,20 +5,15 @@
   justify-content: center;
   position: relative;
   overflow: hidden;
-  padding-top: 4rem;
-}
-
-/* 3D canvas wrapper fills the full section */
-.hero-section > div:first-child {
-  pointer-events: none;
+  padding-top: 5rem;
 }
 
 .hero-content {
   position: relative;
-  z-index: 10;
+  z-index: 1;
   display: flex;
   justify-content: center;
-  pointer-events: none;
+  width: 100%;
 }
 
 .hero-text-centered {
@@ -26,31 +21,98 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 800px;
-  pointer-events: auto;
+  max-width: 720px;
 }
 
-.hero-text-centered .section-eyebrow {
+.hero-eyebrow {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
-  margin-bottom: 2.5rem;
+  gap: 1.25rem;
+  margin-bottom: 1.75rem;
+}
+
+.hero-eyebrow-line {
+  width: 36px;
+  height: 1px;
+  background: var(--glass-border);
+}
+
+.hero-eyebrow-text {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-violet);
 }
 
 .hero-title {
-  font-size: clamp(3.5rem, 8vw, 7rem);
+  font-size: clamp(2.5rem, 6.5vw, 4.5rem);
   font-weight: 400;
-  line-height: 1.1;
-  margin-bottom: 2rem;
-  /* Subtle glass-like text shadow to pop above 3D */
+  line-height: 1.08;
+  margin-bottom: 1.25rem;
   text-shadow:
-    0 0 80px rgba(167, 139, 250, 0.3),
-    0 2px 40px rgba(0, 0, 0, 0.5);
+    0 0 60px rgba(0, 0, 0, 0.6),
+    0 2px 24px rgba(0, 0, 0, 0.5);
+}
+
+.hero-title em {
+  font-style: italic;
 }
 
 .hero-description {
-  font-size: clamp(1.1rem, 2vw, 1.4rem);
-  max-width: 600px;
+  font-size: clamp(1rem, 1.7vw, 1.12rem);
+  line-height: 1.65;
+  max-width: 540px;
   margin: 0 auto;
+}
+
+.scroll-hint-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-secondary);
+  transition: color var(--t-fast);
+}
+
+.scroll-hint-link:hover {
+  color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 100svh;
+    padding-top: 5.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .hero-text-centered {
+    width: 100%;
+    padding: 0 0.25rem;
+  }
+
+  .hero-eyebrow {
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-eyebrow-line {
+    width: 24px;
+  }
+
+  .hero-eyebrow-text {
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 9vw, 2.75rem);
+    margin-bottom: 1rem;
+  }
+
+  .hero-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
 }

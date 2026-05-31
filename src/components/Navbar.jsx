@@ -81,7 +81,7 @@ const Navbar = () => {
           })}
         </ul>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <div className="navbar-actions">
           <a href="#contact" onClick={(e) => handleClick(e, '#contact')} className="nav-cta-btn">
             Connect
           </a>

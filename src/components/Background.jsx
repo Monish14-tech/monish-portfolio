@@ -1,58 +1,74 @@
 import React, { useEffect, useRef } from 'react';
+import { usePerformance } from '../context/PerformanceContext';
 import './Background.css';
+
+const PARTICLE_COUNT = { low: 32, medium: 50, high: 70 };
 
 const Background = () => {
   const canvasRef = useRef(null);
+  const { tier, enableHeavyBackground } = usePerformance();
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    if (!canvas) return undefined;
+
+    const ctx = canvas.getContext('2d', { alpha: true });
     let animFrame;
+    let running = true;
     let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
     let smoothMouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
     let ripples = [];
 
-    // ─── Resize ───
+    const N = PARTICLE_COUNT[tier] ?? 50;
+    const frameMinMs = tier === 'low' ? 33 : tier === 'medium' ? 22 : 0;
+    let lastDraw = 0;
+
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio, tier === 'low' ? 1 : 1.5);
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
-    window.addEventListener('resize', resize);
 
-    // ─── Mouse ───
     const onMove = (e) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
     };
-    window.addEventListener('mousemove', onMove);
 
-    // ─── Click ripple ───
     const onClick = (e) => {
-      ripples.push({ x: e.clientX, y: e.clientY, r: 0, maxR: 180, alpha: 0.6 });
+      if (tier !== 'low') {
+        ripples.push({ x: e.clientX, y: e.clientY, r: 0, alpha: 0.5 });
+      }
     };
-    window.addEventListener('click', onClick);
 
-    // ─── Particles ───
-    const N = 90;
+    const onVis = () => {
+      running = !document.hidden;
+      if (running) animFrame = requestAnimationFrame(draw);
+    };
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', onMove, { passive: true });
+    window.addEventListener('click', onClick);
+    document.addEventListener('visibilitychange', onVis);
+
     const particles = Array.from({ length: N }, () => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
-      ox: 0, oy: 0, // origin
-      vx: (Math.random() - 0.5) * 0.25,
-      vy: (Math.random() - 0.5) * 0.25,
-      r: Math.random() * 1.8 + 0.5,
-      alpha: Math.random() * 0.5 + 0.15,
-      // color variant: purple, cyan, pink
+      vx: (Math.random() - 0.5) * 0.2,
+      vy: (Math.random() - 0.5) * 0.2,
+      r: Math.random() * 1.5 + 0.5,
+      alpha: Math.random() * 0.4 + 0.12,
       color: ['167,139,250', '6,182,212', '236,72,153'][Math.floor(Math.random() * 3)],
       pulsePhase: Math.random() * Math.PI * 2,
     }));
 
-    // ─── Draw helpers ───
     const drawOrb = (x, y, r, color, alpha = 1) => {
       const grad = ctx.createRadialGradient(x, y, 0, x, y, r);
       grad.addColorStop(0, `rgba(${color},${alpha})`);
-      grad.addColorStop(0.4, `rgba(${color},${alpha * 0.3})`);
+      grad.addColorStop(0.5, `rgba(${color},${alpha * 0.2})`);
       grad.addColorStop(1, 'transparent');
       ctx.fillStyle = grad;
       ctx.beginPath();
@@ -62,27 +78,33 @@ const Background = () => {
 
     const drawGlowLine = (x1, y1, x2, y2, color, alpha) => {
       ctx.strokeStyle = `rgba(${color},${alpha})`;
-      ctx.lineWidth = 0.6;
+      ctx.lineWidth = 0.5;
       ctx.beginPath();
       ctx.moveTo(x1, y1);
       ctx.lineTo(x2, y2);
       ctx.stroke();
     };
 
-    // ─── Main draw loop ───
     let t = 0;
-    const draw = () => {
-      t += 0.008;
-      const W = canvas.width;
-      const H = canvas.height;
 
-      // Smooth mouse follow
-      smoothMouse.x += (mouse.x - smoothMouse.x) * 0.06;
-      smoothMouse.y += (mouse.y - smoothMouse.y) * 0.06;
+    const draw = (now = 0) => {
+      if (!running) return;
+
+      if (frameMinMs && now - lastDraw < frameMinMs) {
+        animFrame = requestAnimationFrame(draw);
+        return;
+      }
+      lastDraw = now;
+
+      t += 0.008;
+      const W = window.innerWidth;
+      const H = window.innerHeight;
+
+      smoothMouse.x += (mouse.x - smoothMouse.x) * (tier === 'low' ? 0.04 : 0.06);
+      smoothMouse.y += (mouse.y - smoothMouse.y) * (tier === 'low' ? 0.04 : 0.06);
 
       ctx.clearRect(0, 0, W, H);
 
-      // === 1. Background gradient ===
       const bgGrad = ctx.createLinearGradient(0, 0, W, H);
       bgGrad.addColorStop(0, '#050505');
       bgGrad.addColorStop(0.5, '#08080f');
@@ -90,195 +112,105 @@ const Background = () => {
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, W, H);
 
-      // === 2. Ambient orbs (slow pulse + follow mouse) ===
-      const orbPulse = Math.sin(t * 0.5) * 0.015 + 0.07;
-      drawOrb(W * 0.15 + smoothMouse.x * 0.04, H * 0.2 + smoothMouse.y * 0.025, 500, '88,28,135', orbPulse);
-      drawOrb(W * 0.85 - smoothMouse.x * 0.03, H * 0.75 - smoothMouse.y * 0.02, 420, '6,182,212', orbPulse * 0.8);
-      drawOrb(W * 0.5 + Math.sin(t * 0.4) * 80, H * 0.5 + Math.cos(t * 0.3) * 60, 280, '139,92,246', 0.035);
-      // Cursor-tracking orb
-      drawOrb(smoothMouse.x, smoothMouse.y, 220, '139,92,246', 0.055);
-      drawOrb(smoothMouse.x, smoothMouse.y, 80, '196,181,253', 0.07);
+      const orbPulse = Math.sin(t * 0.5) * 0.012 + 0.06;
+      drawOrb(W * 0.2, H * 0.25, 420, '88,28,135', orbPulse);
+      drawOrb(W * 0.8, H * 0.7, 360, '6,182,212', orbPulse * 0.85);
 
-      // === 3. Interactive dot grid ===
-      const gridSize = 70;
-      const cols = Math.ceil(W / gridSize);
-      const rows = Math.ceil(H / gridSize);
+      if (enableHeavyBackground) {
+        drawOrb(W * 0.5, H * 0.5, 240, '139,92,246', 0.03);
+        if (tier === 'high') {
+          drawOrb(smoothMouse.x, smoothMouse.y, 160, '139,92,246', 0.04);
+        }
 
-      for (let col = 0; col <= cols; col++) {
-        for (let row = 0; row <= rows; row++) {
-          const gx = col * gridSize;
-          const gy = row * gridSize;
-          const dx = smoothMouse.x - gx;
-          const dy = smoothMouse.y - gy;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const proximity = Math.max(0, 1 - dist / 200);
+        const gridSize = tier === 'high' ? 80 : 100;
+        const cols = Math.ceil(W / gridSize);
+        const rows = Math.ceil(H / gridSize);
 
-          // Dot at intersection
-          const dotR = 0.8 + proximity * 2.5;
-          const dotAlpha = 0.12 + proximity * 0.6;
-          const dotColor = proximity > 0.3
-            ? `rgba(167,139,250,${dotAlpha})`
-            : `rgba(255,255,255,${dotAlpha * 0.4})`;
+        for (let col = 0; col <= cols; col += 1) {
+          for (let row = 0; row <= rows; row += 1) {
+            const gx = col * gridSize;
+            const gy = row * gridSize;
+            const dist = Math.hypot(smoothMouse.x - gx, smoothMouse.y - gy);
+            const proximity = Math.max(0, 1 - dist / 180);
+            if (proximity < 0.08) continue;
 
-          ctx.beginPath();
-          ctx.arc(gx, gy, dotR, 0, Math.PI * 2);
-          ctx.fillStyle = dotColor;
-          ctx.fill();
-
-          // Glow ring on close intersections
-          if (proximity > 0.55) {
             ctx.beginPath();
-            ctx.arc(gx, gy, dotR * 2.5, 0, Math.PI * 2);
-            ctx.strokeStyle = `rgba(139,92,246,${proximity * 0.35})`;
-            ctx.lineWidth = 0.8;
-            ctx.stroke();
+            ctx.arc(gx, gy, 0.8 + proximity * 1.5, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(167,139,250,${0.08 + proximity * 0.35})`;
+            ctx.fill();
           }
         }
       }
 
-      // === 4. Grid lines (faint) ===
-      for (let col = 0; col <= cols; col++) {
-        const gx = col * gridSize;
-        const lineAlpha = 0.025 + Math.max(0, 1 - Math.abs(smoothMouse.x - gx) / 300) * 0.04;
-        ctx.strokeStyle = `rgba(139,92,246,${lineAlpha})`;
-        ctx.lineWidth = 0.5;
-        ctx.beginPath();
-        ctx.moveTo(gx, 0);
-        ctx.lineTo(gx, H);
-        ctx.stroke();
-      }
-      for (let row = 0; row <= rows; row++) {
-        const gy = row * gridSize;
-        const lineAlpha = 0.025 + Math.max(0, 1 - Math.abs(smoothMouse.y - gy) / 300) * 0.04;
-        ctx.strokeStyle = `rgba(6,182,212,${lineAlpha})`;
-        ctx.lineWidth = 0.5;
-        ctx.beginPath();
-        ctx.moveTo(0, gy);
-        ctx.lineTo(W, gy);
-        ctx.stroke();
-      }
-
-      // === 5. Particles ===
       particles.forEach((p) => {
-        const pulseFactor = 0.8 + Math.sin(t * 2 + p.pulsePhase) * 0.2;
-
-        // Mouse repulsion / attraction
-        const dx = mouse.x - p.x;
-        const dy = mouse.y - p.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < 150) {
-          // Repel
-          p.vx -= (dx / dist) * 0.06;
-          p.vy -= (dy / dist) * 0.06;
-        } else if (dist < 350) {
-          // Gentle attract
-          p.vx += (dx / dist) * 0.008;
-          p.vy += (dy / dist) * 0.008;
+        if (enableHeavyBackground && tier !== 'low') {
+          const dx = mouse.x - p.x;
+          const dy = mouse.y - p.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < 120 && dist > 0) {
+            p.vx -= (dx / dist) * 0.04;
+            p.vy -= (dy / dist) * 0.04;
+          }
         }
 
         p.vx *= 0.97;
         p.vy *= 0.97;
         p.x += p.vx;
         p.y += p.vy;
-
         if (p.x < 0) p.x = W;
         if (p.x > W) p.x = 0;
         if (p.y < 0) p.y = H;
         if (p.y > H) p.y = 0;
 
-        // Draw particle with pulse glow
-        const finalAlpha = p.alpha * pulseFactor;
+        const pulse = 0.85 + Math.sin(t * 2 + p.pulsePhase) * 0.15;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r * pulseFactor, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${p.color},${finalAlpha})`;
+        ctx.arc(p.x, p.y, p.r * pulse, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${p.color},${p.alpha * pulse})`;
         ctx.fill();
-
-        // Glow halo for bright particles
-        if (finalAlpha > 0.45) {
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r * pulseFactor * 3, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${p.color},${finalAlpha * 0.12})`;
-          ctx.fill();
-        }
       });
 
-      // === 6. Particle connection lines ===
-      for (let i = 0; i < N; i++) {
-        for (let j = i + 1; j < N; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < 110) {
-            const a = 0.12 * (1 - d / 110);
-            drawGlowLine(particles[i].x, particles[i].y, particles[j].x, particles[j].y, particles[i].color, a);
+      if (enableHeavyBackground && tier !== 'low') {
+        const step = tier === 'medium' ? 2 : 1;
+        for (let i = 0; i < N; i += step) {
+          for (let j = i + step; j < N; j += step) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const d = Math.hypot(dx, dy);
+            if (d < 100) {
+              const a = 0.1 * (1 - d / 100);
+              drawGlowLine(particles[i].x, particles[i].y, particles[j].x, particles[j].y, particles[i].color, a);
+            }
           }
         }
       }
 
-      // === 7. Cursor-to-nearby-particle beams ===
-      particles.forEach((p) => {
-        const dx = mouse.x - p.x;
-        const dy = mouse.y - p.y;
-        const d = Math.sqrt(dx * dx + dy * dy);
-        if (d < 120) {
-          drawGlowLine(mouse.x, mouse.y, p.x, p.y, p.color, 0.18 * (1 - d / 120));
-        }
-      });
-
-      // === 8. Ripple effects on click ===
-      ripples = ripples.filter((rip) => rip.alpha > 0.01);
-      ripples.forEach((rip) => {
-        ctx.beginPath();
-        ctx.arc(rip.x, rip.y, rip.r, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(139,92,246,${rip.alpha})`;
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-
-        // Inner ring
-        if (rip.r > 30) {
+      if (tier === 'high') {
+        ripples = ripples.filter((r) => r.alpha > 0.02);
+        ripples.forEach((rip) => {
           ctx.beginPath();
-          ctx.arc(rip.x, rip.y, rip.r * 0.6, 0, Math.PI * 2);
-          ctx.strokeStyle = `rgba(6,182,212,${rip.alpha * 0.6})`;
-          ctx.lineWidth = 0.8;
+          ctx.arc(rip.x, rip.y, rip.r, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(139,92,246,${rip.alpha})`;
+          ctx.lineWidth = 1;
           ctx.stroke();
-        }
-
-        rip.r += 3.5;
-        rip.alpha *= 0.93;
-      });
-
-      // === 9. Flowing aurora lines ===
-      for (let i = 0; i < 3; i++) {
-        const baseY = H * (0.2 + i * 0.3);
-        const amp = 40 + i * 20;
-        const freq = 0.003 + i * 0.001;
-        const speed = t * (0.4 + i * 0.15);
-        const colors = ['139,92,246', '6,182,212', '236,72,153'];
-
-        ctx.beginPath();
-        for (let x = 0; x <= W; x += 4) {
-          const y = baseY + Math.sin(x * freq + speed) * amp + Math.sin(x * freq * 2.1 + speed * 1.3) * (amp * 0.4);
-          if (x === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.strokeStyle = `rgba(${colors[i]},0.04)`;
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
+          rip.r += 3;
+          rip.alpha *= 0.92;
+        });
       }
 
       animFrame = requestAnimationFrame(draw);
     };
 
-    draw();
+    animFrame = requestAnimationFrame(draw);
 
     return () => {
+      running = false;
       cancelAnimationFrame(animFrame);
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('click', onClick);
+      document.removeEventListener('visibilitychange', onVis);
     };
-  }, []);
+  }, [tier, enableHeavyBackground]);
 
   return <canvas ref={canvasRef} className="bg-canvas" />;
 };

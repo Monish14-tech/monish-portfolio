@@ -1,75 +1,103 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import SlideIn from '../components/SlideIn';
+import SectionHeader from '../components/SectionHeader';
+import ProjectMini3D from '../components/ProjectMini3D';
+import '../components/Scene3D.css';
 import '../sections/Projects.css';
 
 const projects = [
   {
     id: 1,
-    title: 'CricMatcher',
+    title: 'Crick Matcher',
     category: 'Next.js / Supabase',
+    model: 'globe',
+    url: 'https://crick-matcher-8ue4.vercel.app/',
     description: 'A cricket-focused web application built to manage and display dynamic match-related information. Emphasizes efficient database interactions and optimized query handling.',
     highlights: ['Responsive UI', 'Database integration', 'Optimized data retrieval'],
-    image: 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?q=80&w=1200&auto=format&fit=crop',
+    image: '/projects/crick-matcher.png',
   },
   {
     id: 2,
     title: 'MUNEZ.AI',
     category: 'Python / FastAPI',
+    model: 'robot',
+    url: 'https://munez-ai.onrender.com/',
     description: 'An AI-powered assistant platform designed to provide reliable responses through multiple AI providers. Incorporates backend API management and intelligent routing.',
     highlights: ['Multi-provider AI integration', 'API orchestration', 'Error handling & failover'],
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200&auto=format&fit=crop',
+    image: '/projects/munez-ai.png',
   },
   {
     id: 3,
     title: 'Cosmic Strike',
     category: 'Socket.IO / MongoDB',
+    model: 'core',
+    url: 'https://midnight-fighter-3.onrender.com/',
     description: 'A real-time multiplayer application featuring live communication, player interactions, and leaderboard management.',
     highlights: ['Real-time communication', 'Multiplayer architecture', 'Leaderboard system'],
-    image: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=1200&auto=format&fit=crop',
+    image: '/projects/cosmic-strike.png',
   },
 ];
 
 const Projects = () => {
   return (
     <section id="projects" className="projects-section">
-      <div className="container">
+      <div className="container section-block">
         <SlideIn direction="up">
-          <h2 className="section-title">
-            Featured <span style={{ fontStyle: 'italic' }}>Projects</span>
-          </h2>
+          <SectionHeader
+            eyebrow="02 — Work"
+            title="Featured "
+            titleAccent="Projects"
+            description="Selected builds spanning full-stack apps, AI platforms, and real-time systems."
+            align="center"
+          />
         </SlideIn>
 
         <div className="projects-grid">
           {projects.map((project, index) => (
-            <SlideIn key={project.id} direction="up" delay={index * 0.2}>
-              <div className="project-card" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <div className="project-image-container">
-                  <img src={project.image} alt={project.title} loading="lazy" />
-                  <motion.div 
-                    className="project-overlay"
-                    initial={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <span className="view-project-btn">View Details</span>
-                  </motion.div>
-                </div>
-                <div className="project-info" style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '1rem', padding: '2rem' }}>
-                  <div>
-                    <span className="project-category">{project.category}</span>
-                    <h3 style={{ fontSize: '2rem', marginBottom: '1rem' }}>{project.title}</h3>
-                    <p className="text-secondary" style={{ fontSize: '0.95rem', lineHeight: '1.6' }}>{project.description}</p>
+            <SlideIn key={project.id} direction="up" delay={index * 0.15}>
+              <article className="project-card">
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="project-image-link"
+                  aria-label={`Open ${project.title} live site`}
+                >
+                  <div className="project-image-container">
+                    <img
+                      src={project.image}
+                      alt={`${project.title} preview`}
+                      loading="lazy"
+                      className="project-screenshot"
+                    />
+                    <motion.div
+                      className="project-overlay"
+                      initial={{ opacity: 0 }}
+                      whileHover={{ opacity: 1 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <span className="view-project-btn">Visit Live Site</span>
+                    </motion.div>
                   </div>
-                  <div style={{ marginTop: 'auto' }}>
-                    <ul style={{ listStyleType: 'disc', paddingLeft: '1.2rem', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                </a>
+
+                <div className="project-body">
+                  <div className="project-info">
+                    <span className="project-index">{String(index + 1).padStart(2, '0')}</span>
+                    <span className="project-category">{project.category}</span>
+                    <h3 className="project-title">{project.title}</h3>
+                    <p className="project-description">{project.description}</p>
+                    <ul className="project-highlights">
                       {project.highlights.map((hl, i) => (
-                        <li key={i} style={{ marginBottom: '0.25rem' }}>{hl}</li>
+                        <li key={i}>{hl}</li>
                       ))}
                     </ul>
                   </div>
+
+                  <ProjectMini3D variant={project.model} />
                 </div>
-              </div>
+              </article>
             </SlideIn>
           ))}
         </div>

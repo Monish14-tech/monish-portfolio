@@ -1,4 +1,6 @@
-* {
+/* Only hide the system cursor while the custom cursor is mounted */
+body.custom-cursor-active,
+body.custom-cursor-active * {
   cursor: none !important;
 }
 
@@ -7,13 +9,15 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 4px;
-  height: 4px;
-  background: #c4b5fd;
+  width: 6px;
+  height: 6px;
+  background: #e9d5ff;
   border-radius: 50%;
   pointer-events: none;
   z-index: 100002;
-  box-shadow: 0 0 6px 2px rgba(167, 139, 250, 0.8);
+  box-shadow:
+    0 0 8px 2px rgba(167, 139, 250, 0.95),
+    0 0 0 1px rgba(255, 255, 255, 0.35);
 }
 
 /* ─── Crosshair reticle ring ─── */
@@ -37,7 +41,7 @@
   position: absolute;
   width: 10px;
   height: 10px;
-  border-color: rgba(167, 139, 250, 0.85);
+  border-color: rgba(196, 181, 253, 0.95);
   border-style: solid;
 }
 
@@ -63,7 +67,7 @@
   position: absolute;
   width: 10px;
   height: 10px;
-  border-color: rgba(167, 139, 250, 0.85);
+  border-color: rgba(196, 181, 253, 0.95);
   border-style: solid;
   pointer-events: none;
 }

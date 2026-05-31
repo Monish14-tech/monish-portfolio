@@ -1,36 +1,35 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import Model3D from '../components/Model3D';
+import SectionDecoration from '../components/SectionDecoration';
 import SlideIn from '../components/SlideIn';
+import '../components/Scene3D.css';
 import '../sections/Hero.css';
 
 const Home = () => {
   return (
-    <section id="home" className="hero-section">
-      {/* Full-screen 3D Model as background */}
-      <Model3D />
+    <section id="home" className="hero-section section-scrim">
+      <SectionDecoration variant="hero" />
 
-      {/* Hero text floats above the 3D scene */}
       <div className="container hero-content">
         <div className="hero-text-centered">
           <SlideIn direction="up" delay={0.2} duration={1}>
-            <div className="section-eyebrow">
-              <div className="scroll-hint-line" style={{ width: '40px', height: '1px' }}></div>
-              <span style={{ fontSize: '0.8rem', letterSpacing: '0.2em', textTransform: 'uppercase' }}>Full Stack | Backend Developer</span>
-              <div className="scroll-hint-line" style={{ width: '40px', height: '1px' }}></div>
+            <div className="hero-eyebrow">
+              <span className="hero-eyebrow-line" />
+              <span className="hero-eyebrow-text">Full Stack · Backend Developer</span>
+              <span className="hero-eyebrow-line" />
             </div>
           </SlideIn>
 
           <SlideIn direction="up" delay={0.4} duration={1.2}>
             <h1 className="hero-title">
               Architecting <br />
-              <span style={{ fontStyle: 'italic' }}>Intelligent Systems.</span>
+              <em>Intelligent Systems.</em>
             </h1>
           </SlideIn>
 
           <SlideIn direction="up" delay={0.6} duration={1.2}>
             <p className="hero-description text-secondary">
-              Problem Solver passionate about building scalable web applications, backend systems, and AI-powered solutions.
+              Problem solver passionate about building scalable web applications, backend systems, and AI-powered solutions.
             </p>
           </SlideIn>
         </div>
@@ -42,9 +41,9 @@ const Home = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 1.5 }}
       >
-        <a href="#about" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', color: 'var(--text-secondary)' }}>
+        <a href="#about" className="scroll-hint-link">
           <span>Discover</span>
-          <div className="scroll-hint-line"></div>
+          <div className="scroll-hint-line" />
         </a>
       </motion.div>
     </section>

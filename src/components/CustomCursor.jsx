@@ -23,6 +23,11 @@ const CustomCursor = () => {
   const glowY = useSpring(cursorY, { damping: 50, stiffness: 90 });
 
   useEffect(() => {
+    document.body.classList.add('custom-cursor-active');
+    return () => document.body.classList.remove('custom-cursor-active');
+  }, []);
+
+  useEffect(() => {
     const onMove = (e) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
@@ -33,10 +38,12 @@ const CustomCursor = () => {
       const isBtn = target.closest('button') || target.tagName === 'BUTTON';
       const isLink = target.closest('a') || target.tagName === 'A';
       const isInteractive = target.classList.contains('interactive');
+      const is3d = target.closest('.scene-canvas--interactive') || target.closest('canvas');
 
-      if (isBtn || isLink || isInteractive) {
+      if (isBtn || isLink || isInteractive || is3d) {
         setIsHovering(true);
-        if (isLink) setCursorLabel('OPEN');
+        if (is3d) setCursorLabel('EXPLORE');
+        else if (isLink) setCursorLabel('OPEN');
         else setCursorLabel('');
       } else {
         setIsHovering(false);
