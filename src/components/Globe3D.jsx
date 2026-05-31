@@ -33,13 +33,17 @@ const NetworkScene = () => {
   );
 };
 
-const Globe3D = () => (
-  <SceneCanvas camera={{ position: [0, 0, 4], fov: 46 }} interactive={false} lazy>
-    <ambientLight intensity={0.35} />
-    <pointLight position={[6, 6, 3]} intensity={2.2} color="#818cf8" />
-    <pointLight position={[-5, -4, -3]} intensity={1.5} color="#f472b6" />
-    <NetworkScene />
-  </SceneCanvas>
-);
+const Globe3D = () => {
+  const { release3DWhenHidden } = usePerformance();
+
+  return (
+    <SceneCanvas camera={{ position: [0, 0, 4], fov: 46 }} interactive={false} lazy releaseWhenHidden={release3DWhenHidden}>
+      <ambientLight intensity={0.35} />
+      <pointLight position={[6, 6, 3]} intensity={2.2} color="#818cf8" />
+      <pointLight position={[-5, -4, -3]} intensity={1.5} color="#f472b6" />
+      <NetworkScene />
+    </SceneCanvas>
+  );
+};
 
 export default Globe3D;

@@ -94,7 +94,6 @@
   .section-deco--contact .scene-canvas {
     mask-image: radial-gradient(ellipse 95% 85% at 50% 50%, black 20%, transparent 100%);
     -webkit-mask-image: radial-gradient(ellipse 95% 85% at 50% 50%, black 20%, transparent 100%);
-    contain: strict;
   }
 
   .section-deco--hero .scene-canvas {

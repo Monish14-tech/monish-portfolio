@@ -267,10 +267,20 @@ const HeroClassicScene = () => {
   );
 };
 
-const Model3D = () => (
-  <SceneCanvas camera={{ position: [0, 0, 10.2], fov: 46 }} interactive={false} lazy={false}>
-    <HeroClassicScene />
-  </SceneCanvas>
-);
+const Model3D = () => {
+  const { isMobile, release3DWhenHidden } = usePerformance();
+
+  return (
+    <SceneCanvas
+      camera={{ position: [0, 0, 10.2], fov: 46 }}
+      interactive={false}
+      lazy={isMobile}
+      releaseWhenHidden={release3DWhenHidden}
+      rootMargin="80px"
+    >
+      <HeroClassicScene />
+    </SceneCanvas>
+  );
+};
 
 export default Model3D;

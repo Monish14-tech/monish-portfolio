@@ -36,7 +36,7 @@ const MiniScene = ({ variant }) => {
 };
 
 const ProjectMini3D = ({ variant }) => {
-  const { enableProject3D } = usePerformance();
+  const { enableProject3D, release3DWhenHidden } = usePerformance();
 
   if (!enableProject3D) {
     return <div className={`project-model project-model--fallback project-model--${variant}`} aria-hidden />;
@@ -48,7 +48,8 @@ const ProjectMini3D = ({ variant }) => {
         camera={SCENES[variant]?.camera}
         interactive={false}
         lazy
-        rootMargin="240px"
+        rootMargin="200px"
+        releaseWhenHidden={release3DWhenHidden}
       >
         <MiniScene variant={variant} />
       </SceneCanvas>

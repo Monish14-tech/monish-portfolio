@@ -92,27 +92,31 @@ const TIER_SETTINGS = {
 };
 
 function applyMobileOverrides(settings, tier) {
-  if (typeof window === 'undefined') return settings;
+  if (typeof window === 'undefined') return { ...settings, isMobile: false };
 
   const isMobile =
     /Android|iPhone|iPad|iPod|Mobile|webOS/i.test(navigator.userAgent) ||
     window.innerWidth < 768;
 
-  if (!isMobile) return settings;
+  if (!isMobile) return { ...settings, isMobile: false };
 
   return {
     ...settings,
+    isMobile: true,
     enableProject3D: true,
-    enableProjectEnvironment: true,
+    enableProjectEnvironment: false,
+    enableHeroEnvironment: false,
     enableCustomCursor: false,
     enableHeavyBackground: false,
     enableEnvironment: false,
+    antialias: false,
     dpr: [1, 1],
     dustLayers: Math.min(settings.dustLayers, tier === 'low' ? 2 : 3),
     particles: Math.min(settings.particles, tier === 'low' ? 40 : 70),
     stars: Math.min(settings.stars, tier === 'low' ? 100 : 500),
     satellites: Math.min(settings.satellites, 1),
-    transmissionSamples: Math.min(settings.transmissionSamples, 3),
+    transmissionSamples: Math.min(settings.transmissionSamples, 2),
+    release3DWhenHidden: true,
   };
 }
 
@@ -120,7 +124,12 @@ export function PerformanceProvider({ children }) {
   const value = useMemo(() => {
     const tier = detectTier();
     const settings = applyMobileOverrides(TIER_SETTINGS[tier], tier);
-    return { tier, ...settings };
+    return {
+      tier,
+      isMobile: false,
+      release3DWhenHidden: false,
+      ...settings,
+    };
   }, []);
 
   return (

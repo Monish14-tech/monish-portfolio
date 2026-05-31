@@ -2,6 +2,16 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { usePerformance } from '../../context/PerformanceContext';
 
+function detectWebGL() {
+  if (typeof document === 'undefined') return true;
+  try {
+    const canvas = document.createElement('canvas');
+    return !!(canvas.getContext('webgl2') || canvas.getContext('webgl'));
+  } catch {
+    return false;
+  }
+}
+
 const SceneCanvas = ({
   children,
   camera = { position: [0, 0, 5], fov: 45 },
@@ -10,8 +20,10 @@ const SceneCanvas = ({
   style,
   lazy = true,
   rootMargin = '120px',
+  releaseWhenHidden = false,
 }) => {
   const containerRef = useRef(null);
+  const [webglOk] = useState(detectWebGL);
   const [isMounted, setIsMounted] = useState(!lazy);
   const [inView, setInView] = useState(!lazy);
   const [tabActive, setTabActive] = useState(
@@ -27,6 +39,7 @@ const SceneCanvas = ({
       const visible = entry.isIntersecting;
       setInView(visible);
       if (lazy && visible) setIsMounted(true);
+      else if (lazy && releaseWhenHidden && !visible) setIsMounted(false);
     };
 
     const observer = new IntersectionObserver(onIntersect, {
@@ -35,7 +48,7 @@ const SceneCanvas = ({
     });
     observer.observe(el);
     return () => observer.disconnect();
-  }, [lazy, rootMargin]);
+  }, [lazy, rootMargin, releaseWhenHidden]);
 
   useEffect(() => {
     const onVis = () => {
@@ -48,18 +61,24 @@ const SceneCanvas = ({
       const visible = rect.bottom > 0 && rect.top < window.innerHeight;
       setInView(visible);
       if (lazy && visible) setIsMounted(true);
+      else if (lazy && releaseWhenHidden && !visible) setIsMounted(false);
     };
     document.addEventListener('visibilitychange', onVis);
     return () => document.removeEventListener('visibilitychange', onVis);
-  }, [lazy]);
+  }, [lazy, releaseWhenHidden]);
 
-  const shouldRender = lazy ? isMounted : true;
+  const shouldRender = webglOk && (lazy ? isMounted : true);
   const frameloop = inView && tabActive ? 'always' : 'never';
 
   const onCreated = useCallback(({ gl }) => {
+    gl.setClearColor(0x000000, 0);
     gl.setPixelRatio(Math.min(window.devicePixelRatio, dpr[1]));
     gl.powerPreference = 'high-performance';
   }, [dpr]);
+
+  if (!webglOk) {
+    return <div className={`scene-canvas scene-canvas--fallback${className ? ` ${className}` : ''}`} />;
+  }
 
   return (
     <div

@@ -1,6 +1,7 @@
 import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { PerformanceProvider, usePerformance } from './context/PerformanceContext';
+import ErrorBoundary from './components/ErrorBoundary';
 import { DeferMount } from './utils/DeferMount';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -47,17 +48,17 @@ function AppContent() {
       <main>
         <Home />
         <DeferMount minHeight="100vh">
-          <Suspense fallback={null}>
+          <Suspense fallback={<div className="section-loader" aria-hidden />}>
             <About />
           </Suspense>
         </DeferMount>
         <DeferMount minHeight="100vh">
-          <Suspense fallback={null}>
+          <Suspense fallback={<div className="section-loader" aria-hidden />}>
             <Projects />
           </Suspense>
         </DeferMount>
         <DeferMount minHeight="80vh">
-          <Suspense fallback={null}>
+          <Suspense fallback={<div className="section-loader" aria-hidden />}>
             <Contact />
           </Suspense>
         </DeferMount>
@@ -70,9 +71,11 @@ function AppContent() {
 
 function App() {
   return (
-    <PerformanceProvider>
-      <AppContent />
-    </PerformanceProvider>
+    <ErrorBoundary>
+      <PerformanceProvider>
+        <AppContent />
+      </PerformanceProvider>
+    </ErrorBoundary>
   );
 }
 

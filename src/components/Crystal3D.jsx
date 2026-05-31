@@ -20,13 +20,17 @@ const AIScene = () => {
   );
 };
 
-const Crystal3D = () => (
-  <SceneCanvas camera={{ position: [0, 0, 4.8], fov: 46 }} interactive={false} lazy>
+const Crystal3D = () => {
+  const { release3DWhenHidden } = usePerformance();
+
+  return (
+  <SceneCanvas camera={{ position: [0, 0, 4.8], fov: 46 }} interactive={false} lazy releaseWhenHidden={release3DWhenHidden}>
     <ambientLight intensity={0.45} />
     <pointLight position={[4, 4, 4]} intensity={2.5} color="#f472b6" />
     <pointLight position={[-4, -2, 4]} intensity={1.8} color="#22d3ee" />
     <AIScene />
   </SceneCanvas>
-);
+  );
+};
 
 export default Crystal3D;
