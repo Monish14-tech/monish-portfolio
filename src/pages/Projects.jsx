@@ -55,7 +55,7 @@ const Projects = () => {
 
         <div className="projects-grid">
           {projects.map((project, index) => (
-            <SlideIn key={project.id} direction="up" delay={index * 0.15}>
+            <SlideIn key={project.id} direction="up" delay={index * 0.15} clip={false}>
               <article className="project-card">
                 <a
                   href={project.url}
@@ -68,7 +68,9 @@ const Projects = () => {
                     <img
                       src={project.image}
                       alt={`${project.title} preview`}
-                      loading="lazy"
+                      loading={index === 0 ? 'eager' : 'lazy'}
+                      fetchPriority={index === 0 ? 'high' : 'auto'}
+                      decoding="async"
                       className="project-screenshot"
                     />
                     <motion.div

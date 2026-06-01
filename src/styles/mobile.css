@@ -169,7 +169,7 @@
     align-self: stretch;
   }
 
-  .project-image-container {
+  .project-image-link {
     min-height: 200px;
     aspect-ratio: 16 / 10;
   }

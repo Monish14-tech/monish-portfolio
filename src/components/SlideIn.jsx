@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 
-const SlideIn = ({ children, direction = 'up', delay = 0, className = '' }) => {
+const SlideIn = ({ children, direction = 'up', delay = 0, className = '', clip = true }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px 0px" });
+  const isInView = useInView(ref, { once: true, amount: 0.12 });
 
   const getInitialPosition = () => {
     switch (direction) {
@@ -16,7 +16,7 @@ const SlideIn = ({ children, direction = 'up', delay = 0, className = '' }) => {
   };
 
   return (
-    <div ref={ref} className={className} style={{ overflow: 'hidden' }}>
+    <div ref={ref} className={className} style={clip ? { overflow: 'hidden' } : undefined}>
       <motion.div
         initial={getInitialPosition()}
         animate={isInView ? { x: 0, y: 0, opacity: 1 } : getInitialPosition()}
