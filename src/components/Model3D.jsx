@@ -268,14 +268,14 @@ const HeroClassicScene = () => {
 };
 
 const Model3D = () => {
-  const { isMobile, release3DWhenHidden } = usePerformance();
+  const { isMobile } = usePerformance();
 
   return (
     <SceneCanvas
-      camera={{ position: [0, 0, 10.2], fov: 46 }}
+      camera={{ position: [0, 0, isMobile ? 9.5 : 10.2], fov: isMobile ? 50 : 46 }}
       interactive={false}
-      lazy={isMobile}
-      releaseWhenHidden={release3DWhenHidden}
+      lazy={false}
+      releaseWhenHidden={false}
       rootMargin="80px"
     >
       <HeroClassicScene />

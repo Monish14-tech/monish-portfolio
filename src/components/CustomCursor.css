@@ -11,7 +11,7 @@ body.custom-cursor-active * {
   left: 0;
   width: 6px;
   height: 6px;
-  background: #e9d5ff;
+  background: #c4b5fd;
   border-radius: 50%;
   pointer-events: none;
   z-index: 100002;

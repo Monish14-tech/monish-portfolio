@@ -87,9 +87,21 @@
     padding-bottom: 4rem;
   }
 
+  /* Keep text readable but let the orb show through behind */
+  .hero-content {
+    z-index: 2;
+  }
+
   .hero-text-centered {
     width: 100%;
     padding: 0 0.25rem;
+    position: relative;
+  }
+
+  .hero-title {
+    text-shadow:
+      0 0 32px rgba(2, 6, 23, 0.9),
+      0 2px 16px rgba(0, 0, 0, 0.6);
   }
 
   .hero-eyebrow {

@@ -1,0 +1,144 @@
+/* ─── Cosmic / deep-space theme overrides ─── */
+
+:root {
+  --bg-primary: #02020f;
+  --bg-secondary: #06061a;
+  --bg-elevated: rgba(8, 12, 32, 0.88);
+
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.62);
+  --text-muted: rgba(255, 255, 255, 0.38);
+
+  --accent: #ffffff;
+  --accent-violet: #a78bfa;
+  --accent-dim: rgba(255, 255, 255, 0.1);
+
+  --glass-bg: rgba(6, 10, 28, 0.62);
+  --glass-border: rgba(129, 140, 248, 0.14);
+  --glow-violet: rgba(139, 92, 246, 0.35);
+  --glow-cyan: rgba(34, 211, 238, 0.25);
+}
+
+body {
+  background-color: var(--bg-primary);
+}
+
+/* Deep space backdrop behind canvas */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 120% 80% at 50% -20%, rgba(88, 28, 135, 0.22) 0%, transparent 55%),
+    radial-gradient(ellipse 90% 60% at 100% 50%, rgba(14, 116, 144, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 70% 50% at 0% 80%, rgba(79, 70, 229, 0.14) 0%, transparent 45%),
+    linear-gradient(180deg, #02020f 0%, #06061a 45%, #030312 100%);
+}
+
+/* Static star speckles (canvas handles animated stars + shooting stars) */
+body::before {
+  opacity: 0.05;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1px 1px at 25% 65%, rgba(200, 220, 255, 0.7), transparent),
+    radial-gradient(1.5px 1.5px at 40% 15%, rgba(167, 139, 250, 0.8), transparent),
+    radial-gradient(1px 1px at 55% 80%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 70% 35%, rgba(103, 232, 249, 0.7), transparent),
+    radial-gradient(1.5px 1.5px at 85% 55%, rgba(255, 255, 255, 0.85), transparent),
+    radial-gradient(1px 1px at 92% 12%, rgba(196, 181, 253, 0.75), transparent),
+    radial-gradient(1px 1px at 15% 88%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 48% 42%, rgba(255, 255, 255, 0.55), transparent),
+    radial-gradient(1px 1px at 78% 72%, rgba(103, 232, 249, 0.6), transparent);
+  background-size: 100% 100%;
+}
+
+body::before {
+  opacity: 0.035;
+}
+
+.scroll-progress-bar {
+  background: var(--accent);
+}
+
+.scroll-hint-line {
+  background: var(--text-secondary);
+}
+
+.h-line {
+  background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+}
+
+.panel,
+.project-card,
+.glass {
+  border-color: rgba(129, 140, 248, 0.12);
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.06) inset,
+    0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.project-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+    0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.projects-section {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(79, 70, 229, 0.08) 0%, transparent 60%),
+    var(--bg-secondary);
+}
+
+.contact-section {
+  background: radial-gradient(ellipse 100% 80% at 50% 100%, rgba(14, 116, 144, 0.06) 0%, transparent 70%);
+}
+
+.navbar-wrapper.scrolled {
+  background: rgba(2, 6, 23, 0.88);
+  border-bottom-color: rgba(129, 140, 248, 0.12);
+}
+
+.mobile-nav {
+  background: rgba(2, 4, 18, 0.98);
+}
+
+.nav-link.active {
+  color: var(--text-primary);
+}
+
+.nav-indicator {
+  background: var(--text-primary);
+  box-shadow: none;
+}
+
+.nav-cta-btn {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border: none;
+  box-shadow: none;
+}
+
+.nav-cta-btn:hover {
+  background: #e0e0e0;
+}
+
+.project-highlights li {
+  border-color: var(--glass-border);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.skills-list li::before {
+  background: var(--accent-violet);
+  box-shadow: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--glass-border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}

@@ -1,4 +1,3 @@
-import { Environment } from '@react-three/drei';
 import SceneCanvas from './three/SceneCanvas';
 import AnimatedFloat from './three/AnimatedFloat';
 import { useCursorParallax } from './three/useCursorParallax';
@@ -7,7 +6,7 @@ import { usePerformance } from '../context/PerformanceContext';
 
 const AIScene = () => {
   const groupRef = useCursorParallax({ rotX: 0.2, rotY: 0.3, lerp: 0.06, autoRotateY: 0.03 });
-  const { tier, enableEnvironment } = usePerformance();
+  const { tier } = usePerformance();
   const scale = tier === 'low' ? 0.62 : tier === 'medium' ? 0.7 : 0.78;
 
   return (
@@ -15,7 +14,6 @@ const AIScene = () => {
       <AnimatedFloat speed={1} rotationIntensity={0.08} floatIntensity={0.15}>
         <AIBrain scale={scale} />
       </AnimatedFloat>
-      {enableEnvironment && <Environment preset="city" />}
     </group>
   );
 };

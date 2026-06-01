@@ -33,7 +33,6 @@ const Footer = () => {
 
         <div className="footer-copyright">
           <p>&copy; {new Date().getFullYear()} Monish. All rights reserved.</p>
-          <p>Engineered with passion.</p>
         </div>
       </div>
     </footer>

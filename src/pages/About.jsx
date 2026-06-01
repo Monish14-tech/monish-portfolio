@@ -7,7 +7,7 @@ import '../sections/About.css';
 
 const About = () => {
   return (
-    <section id="about" className="about-section section-scrim">
+    <section id="about" className="about-section">
       <SectionDecoration variant="about" />
 
       <div className="container section-block">

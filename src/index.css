@@ -1,8 +1,8 @@
 :root {
-  /* --- Onyx & Pearl Palette --- */
-  --bg-primary: #050505;
-  --bg-secondary: #0a0a0a;
-  --bg-elevated: rgba(12, 12, 14, 0.85);
+  /* --- Deep space palette (see space-theme.css for full overrides) --- */
+  --bg-primary: #02020f;
+  --bg-secondary: #06061a;
+  --bg-elevated: rgba(8, 12, 32, 0.88);
 
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.62);
@@ -13,8 +13,8 @@
   --accent-dim: rgba(255, 255, 255, 0.1);
 
   /* Materials */
-  --glass-bg: rgba(10, 10, 12, 0.55);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(6, 10, 28, 0.62);
+  --glass-border: rgba(129, 140, 248, 0.14);
   --glass-blur: blur(24px);
 
   /* Layout */
@@ -133,7 +133,6 @@ main {
 
 /* Skip painting off-screen sections until needed (mobile perf) */
 @media (max-width: 768px) {
-  .about-section,
   .projects-section,
   .contact-section {
     content-visibility: auto;

@@ -1,5 +1,12 @@
 .about-section {
   border-top: 1px solid var(--glass-border);
+  background: transparent;
+}
+
+.about-section .skills-container.panel {
+  background: rgba(6, 10, 28, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .about-content {
