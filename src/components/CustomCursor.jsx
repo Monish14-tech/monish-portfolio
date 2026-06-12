@@ -38,12 +38,10 @@ const CustomCursor = () => {
       const isBtn = target.closest('button') || target.tagName === 'BUTTON';
       const isLink = target.closest('a') || target.tagName === 'A';
       const isInteractive = target.classList.contains('interactive');
-      const is3d = target.closest('.scene-canvas--interactive') || target.closest('canvas');
 
-      if (isBtn || isLink || isInteractive || is3d) {
+      if (isBtn || isLink || isInteractive) {
         setIsHovering(true);
-        if (is3d) setCursorLabel('EXPLORE');
-        else if (isLink) setCursorLabel('OPEN');
+        if (isLink) setCursorLabel('OPEN');
         else setCursorLabel('');
       } else {
         setIsHovering(false);

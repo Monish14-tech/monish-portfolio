@@ -68,7 +68,10 @@
 .stat-title {
   font-family: var(--font-display);
   font-size: 1.25rem;
-  color: var(--text-primary);
+  background: linear-gradient(90deg, var(--accent-violet), var(--accent-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .stat-desc {
@@ -86,13 +89,18 @@
 
 .skills-label {
   font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--text-muted);
+  font-weight: 600;
+  background: var(--grad-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   margin-bottom: 1.25rem;
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--glass-border);
+  display: inline-block;
+  width: 100%;
 }
 
 .skills-label:not(:first-of-type) {
@@ -118,10 +126,11 @@
 .skills-list li::before {
   content: '';
   flex-shrink: 0;
-  width: 5px;
-  height: 5px;
-  background: var(--accent-violet);
+  width: 6px;
+  height: 6px;
+  background: var(--grad-accent);
   border-radius: 50%;
+  box-shadow: 0 0 6px rgba(167, 139, 250, 0.7);
 }
 
 .skills-objective {

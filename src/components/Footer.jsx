@@ -1,6 +1,11 @@
 import React from 'react';
 import './Footer.css';
 
+const scrollTo = (id) => {
+  const el = document.querySelector(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+};
+
 const Footer = () => {
   return (
     <footer className="footer-wrapper">
@@ -8,14 +13,27 @@ const Footer = () => {
         <div className="footer-top">
           <p className="footer-eyebrow">Available for opportunities</p>
           <h2 className="footer-title">Let's build something great.</h2>
-          <a href="#contact" className="footer-cta">Get in Touch</a>
+          <button
+            className="footer-cta"
+            onClick={() => scrollTo('#contact')}
+            aria-label="Go to contact section"
+          >
+            Get in Touch
+          </button>
         </div>
 
         <div className="h-line footer-divider" />
 
         <div className="footer-bottom">
           <div className="footer-brand">
-            <span className="footer-logo">Monish</span>
+            <button
+              className="footer-logo"
+              onClick={() => scrollTo('#home')}
+              aria-label="Back to top"
+              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+            >
+              Monish
+            </button>
             <p className="footer-tagline">
               Full Stack · Backend Developer
             </p>
@@ -27,7 +45,13 @@ const Footer = () => {
           <div className="footer-links">
             <a href="https://github.com/Monish14-tech" target="_blank" rel="noopener noreferrer">GitHub</a>
             <a href="mailto:monishmani979@gmail.com">Email</a>
-            <a href="#home">Back to top</a>
+            <button
+              className="footer-back-top"
+              onClick={() => scrollTo('#home')}
+              aria-label="Back to top"
+            >
+              Back to top ↑
+            </button>
           </div>
         </div>
 

@@ -25,7 +25,6 @@ const MiniScene = ({ variant }) => {
       <ambientLight intensity={0.5} />
       <pointLight position={[4, 4, 4]} intensity={2} color="#a78bfa" />
       <pointLight position={[-3, -2, 3]} intensity={1.4} color="#22d3ee" />
-      {enableProjectEnvironment && <Environment preset="city" />}
       <AnimatedFloat speed={1} rotationIntensity={0.08} floatIntensity={0.12}>
         <group position={position}>
           <Model scale={scale} />

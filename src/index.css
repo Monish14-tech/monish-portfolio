@@ -1,21 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
 :root {
-  /* --- Deep space palette (see space-theme.css for full overrides) --- */
-  --bg-primary: #02020f;
-  --bg-secondary: #06061a;
-  --bg-elevated: rgba(8, 12, 32, 0.88);
+  /* === Vivid Color Palette === */
+  --bg-primary: #03010f;
+  --bg-secondary: #070520;
+  --bg-elevated: rgba(10, 6, 36, 0.92);
 
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.62);
-  --text-muted: rgba(255, 255, 255, 0.38);
+  --text-primary: #f0eeff;
+  --text-secondary: rgba(220, 210, 255, 0.68);
+  --text-muted: rgba(180, 160, 255, 0.42);
 
-  --accent: #ffffff;
+  /* Primary accents */
+  --accent: #c084fc;
   --accent-violet: #a78bfa;
-  --accent-dim: rgba(255, 255, 255, 0.1);
+  --accent-cyan: #22d3ee;
+  --accent-pink: #f472b6;
+  --accent-emerald: #34d399;
+  --accent-amber: #fbbf24;
+  --accent-blue: #60a5fa;
+
+  /* Neon glows */
+  --glow-violet: 0 0 32px rgba(167, 139, 250, 0.45);
+  --glow-cyan: 0 0 28px rgba(34, 211, 238, 0.4);
+  --glow-pink: 0 0 28px rgba(244, 114, 182, 0.4);
 
   /* Materials */
-  --glass-bg: rgba(6, 10, 28, 0.62);
-  --glass-border: rgba(129, 140, 248, 0.14);
+  --glass-bg: rgba(10, 6, 32, 0.7);
+  --glass-border: rgba(167, 139, 250, 0.22);
+  --glass-border-bright: rgba(167, 139, 250, 0.5);
   --glass-blur: blur(24px);
+
+  /* Gradients */
+  --grad-hero: linear-gradient(135deg, #6d28d9 0%, #0ea5e9 50%, #ec4899 100%);
+  --grad-card: linear-gradient(135deg, rgba(109,40,217,0.15) 0%, rgba(14,165,233,0.08) 100%);
+  --grad-accent: linear-gradient(90deg, #a78bfa, #22d3ee, #f472b6);
+  --grad-text: linear-gradient(135deg, #c084fc 0%, #22d3ee 50%, #f472b6 100%);
 
   /* Layout */
   --container-max: 1200px;
@@ -25,6 +44,7 @@
   --gap-block: clamp(1.5rem, 3vw, 2.5rem);
   --radius-lg: 20px;
   --radius-md: 12px;
+  --radius-xl: 32px;
 
   /* Fonts */
   --font-display: 'Playfair Display', serif;
@@ -163,6 +183,12 @@ section {
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   padding: clamp(1.5rem, 3vw, 2.25rem);
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+
+.panel:hover {
+  border-color: var(--glass-border-bright);
+  box-shadow: var(--glow-violet);
 }
 
 img {
@@ -194,10 +220,14 @@ img {
 
 .section-eyebrow {
   font-size: 0.72rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--accent-violet);
+  background: var(--grad-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
 }
 
 .section-title {
@@ -225,8 +255,7 @@ img {
 
 /* === Typography & effects === */
 .text-gradient {
-  /* For a premium look, we'll use a very subtle silver gradient instead of colors */
-  background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+  background: var(--grad-text);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -246,10 +275,11 @@ img {
   top: 0;
   left: 0;
   right: 0;
-  height: 2px;
-  background: var(--accent);
+  height: 3px;
+  background: var(--grad-accent);
   transform-origin: 0%;
   z-index: 99999;
+  box-shadow: 0 0 12px rgba(167, 139, 250, 0.8);
 }
 
 /* Scroll hint */
@@ -283,10 +313,10 @@ img {
 }
 
 /* Scrollbar */
-::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg-primary); }
-::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #a78bfa, #22d3ee); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #c084fc, #34d399); }
 
 /* Minimalist Background Noise */
 body::before {

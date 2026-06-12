@@ -24,7 +24,8 @@
 }
 
 .project-card:hover {
-  border-color: rgba(167, 139, 250, 0.22);
+  border-color: rgba(167, 139, 250, 0.5);
+  box-shadow: 0 8px 40px rgba(167, 139, 250, 0.18), 0 0 0 1px rgba(34, 211, 238, 0.08);
 }
 
 @media (min-width: 900px) {
@@ -109,16 +110,23 @@
 
 .view-project-btn {
   padding: 0.7rem 1.4rem;
-  border: 1px solid rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(167, 139, 250, 0.85);
   border-radius: 40px;
   color: #fff;
   font-family: var(--font-body);
   font-size: 0.72rem;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(109, 40, 217, 0.35);
   backdrop-filter: blur(8px);
+  box-shadow: 0 0 20px rgba(167, 139, 250, 0.3);
+  transition: background var(--t-fast), box-shadow var(--t-fast);
+}
+
+.project-image-link:hover .view-project-btn {
+  background: rgba(109, 40, 217, 0.6);
+  box-shadow: 0 0 32px rgba(167, 139, 250, 0.6);
 }
 
 /* Content + 3D side panel — same layout on mobile and desktop */
@@ -147,9 +155,13 @@
 
 .project-index {
   font-size: 0.72rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.18em;
-  color: var(--accent-violet);
+  background: var(--grad-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
 }
 
 .project-category {
@@ -164,6 +176,10 @@
   font-size: clamp(1.35rem, 2.5vw, 1.75rem);
   line-height: 1.15;
   margin: 0.1rem 0 0.25rem;
+  background: linear-gradient(135deg, var(--text-primary) 40%, var(--accent-violet) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .project-description {
@@ -188,7 +204,14 @@
   padding: 0.3rem 0.65rem;
   border: 1px solid var(--glass-border);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(167, 139, 250, 0.06);
+  transition: border-color var(--t-fast), color var(--t-fast), background var(--t-fast);
+}
+
+.project-highlights li:hover {
+  border-color: var(--accent-violet);
+  color: var(--accent-violet);
+  background: rgba(167, 139, 250, 0.12);
 }
 
 /* Per-project 3D side panel */

@@ -1,10 +1,10 @@
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { RoundedBox, Line } from '@react-three/drei';
+import { RoundedBox } from '@react-three/drei';
 import * as THREE from 'three';
 import { usePerformance } from '../../context/PerformanceContext';
 
-const PALETTE = ['#f472b6', '#22d3ee', '#facc15', '#a78bfa', '#4ade80', '#fb923c', '#818cf8', '#f0abfc'];
+const PALETTE = ['#c084fc', '#22d3ee', '#f472b6', '#34d399', '#60a5fa', '#fbbf24', '#a78bfa', '#06b6d4'];
 
 const vivid = (color, emissiveIntensity = 1.4, metalness = 0.35) => (
   <meshStandardMaterial
@@ -99,14 +99,13 @@ export const AIBrain = ({ scale = 1, rotation = [0, 0, 0], position = [0, 0, 0] 
   return (
     <group ref={groupRef} scale={scale} rotation={rotation} position={position}>
       {connections.map((pts, i) => (
-        <Line
+        <SafeLine
           key={i}
           points={[
             [pts[0], pts[1], pts[2]],
             [pts[3], pts[4], pts[5]],
           ]}
           color={PALETTE[i % PALETTE.length]}
-          transparent
           opacity={0.55}
           lineWidth={1.2}
         />
@@ -224,6 +223,18 @@ export const Robot = ({ scale = 1, rotation = [0, 0, 0], position = [0, 0, 0] })
   );
 };
 
+function SafeLine({ points, color, opacity, lineWidth = 1 }) {
+  const lineGeometry = useMemo(() => {
+    return new THREE.BufferGeometry().setFromPoints(points.map(p => new THREE.Vector3(...p)));
+  }, [points]);
+
+  return (
+    <line geometry={lineGeometry}>
+      <lineBasicMaterial color={color} transparent opacity={opacity} linewidth={lineWidth} />
+    </line>
+  );
+}
+
 /* ─── Network Globe ─── */
 export const NetworkGlobe = ({ scale = 1, rotation = [0, 0, 0], position = [0, 0, 0] }) => {
   const globeRef = useRef();
@@ -235,13 +246,15 @@ export const NetworkGlobe = ({ scale = 1, rotation = [0, 0, 0], position = [0, 0
 
   const { nodePositions, edges } = useMemo(() => {
     const geo = new THREE.IcosahedronGeometry(1.2, icoDetail);
-    const pos = geo.attributes.position;
+    const pos = geo.getAttribute('position');
     const nodes = [];
-    for (let i = 0; i < pos.count; i++) {
-      nodes.push([pos.getX(i), pos.getY(i), pos.getZ(i)]);
+    if (pos) {
+      for (let i = 0; i < pos.count; i++) {
+        nodes.push([pos.getX(i), pos.getY(i), pos.getZ(i)]);
+      }
     }
     const unique = nodes.filter(
-      (n, i) => nodes.findIndex((m) => Math.abs(m[0] - n[0]) < 0.01 && Math.abs(m[1] - n[1]) < 0.01) === i
+      (n, i) => nodes.findIndex((m) => Math.abs(m[0] - n[0]) < 0.01 && Math.abs(m[1] - n[1]) < 0.01 && Math.abs(m[2] - n[2]) < 0.01) === i
     );
     const edgeList = [];
     unique.forEach((n, i) => {
@@ -273,7 +286,7 @@ export const NetworkGlobe = ({ scale = 1, rotation = [0, 0, 0], position = [0, 0
       )}
 
       {edges.map(([a, b], i) => (
-        <Line key={i} points={[a, b]} color={PALETTE[i % PALETTE.length]} transparent opacity={0.6} lineWidth={1.2} />
+        <SafeLine key={i} points={[a, b]} color={PALETTE[i % PALETTE.length]} opacity={0.6} />
       ))}
 
       {nodePositions.map((pos, i) => (
@@ -298,6 +311,7 @@ const DataPacket = ({ radius, speed, offset, color }) => {
       ref.current.position.set(Math.cos(t) * radius, Math.sin(t * 0.7) * 0.5, Math.sin(t) * radius);
     }
   });
+
   return (
     <mesh ref={ref}>
       <boxGeometry args={[0.11, 0.11, 0.11]} />
@@ -362,7 +376,7 @@ export const CircuitBoard = ({ scale = 1 }) => {
         <meshStandardMaterial color="#1e1b4b" transparent opacity={0.5} emissive="#312e81" emissiveIntensity={0.2} />
       </mesh>
       {traces.map((pts, i) => (
-        <Line key={i} points={pts} color={PALETTE[i % PALETTE.length]} transparent opacity={0.75} lineWidth={2} />
+        <SafeLine key={i} points={pts} color={PALETTE[i % PALETTE.length]} opacity={0.75} lineWidth={2} />
       ))}
       {traces.map((pts, i) => (
         <mesh key={`n-${i}`} position={pts[pts.length - 1]}>
